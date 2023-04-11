@@ -1,20 +1,21 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../db/prisma.service';
-import { Conta } from '@prisma/client';
 
 @Injectable()
 export class ContaService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async informaSaldo(id: string): Promise<Conta> {
-    return await this.prisma.conta.findUnique({
+  async informaSaldo(id: string): Promise<number> {
+    const conta = await this.prisma.conta.findUnique({
       where: {
         id_cliente: id,
       },
     });
+
+    return conta.saldo;
   }
 
-  async realizaDeposito(id: string, valor: number): Promise<Conta> {
+  async realizaDeposito(id: string, valor: number): Promise<number> {
     const conta = await this.prisma.conta.findUnique({
       where: {
         id_cliente: id,
@@ -23,7 +24,7 @@ export class ContaService {
 
     const novoSaldo = conta.saldo + valor;
 
-    return await this.prisma.conta.update({
+    const contaAtualizada = await this.prisma.conta.update({
       where: {
         id_cliente: id,
       },
@@ -31,9 +32,11 @@ export class ContaService {
         saldo: novoSaldo,
       },
     });
+
+    return contaAtualizada.saldo;
   }
 
-  async realizarSaque(id: string, valor: number): Promise<Conta> {
+  async realizarSaque(id: string, valor: number): Promise<number> {
     const conta = await this.prisma.conta.findUnique({
       where: {
         id_cliente: id,
@@ -45,7 +48,7 @@ export class ContaService {
 
     const novoSaldo = conta.saldo - valor;
 
-    return await this.prisma.conta.update({
+    const contaAtualizada = await this.prisma.conta.update({
       where: {
         id_cliente: id,
       },
@@ -53,5 +56,7 @@ export class ContaService {
         saldo: novoSaldo,
       },
     });
+
+    return contaAtualizada.saldo;
   }
 }
