@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ContaService } from './conta.service';
 
-@Controller()
+@Controller('conta')
 export class ContaController {
   constructor(private readonly contaService: ContaService) {}
 
@@ -10,7 +10,7 @@ export class ContaController {
     return this.contaService.informaSaldo(id);
   }
 
-  @Post('/depositar/:id')
+  @Put('/depositar/:id')
   realizaDeposito(@Param('id') id: string, @Body('valor') valor: number) {
     return this.contaService.realizaDeposito(id, valor);
   }
