@@ -35,4 +35,4 @@ $ npm run start:prod
 
 ## Informações sobre implementação
 
-A aplicação foi desenvolvida seguindo o padrão do nest para criação de modulos, com uma mudança no agrupamento de todos os modulos em uma pasta modules.
+A aplicação foi desenvolvida seguindo o padrão do Nest para criação de módulos, com uma mudança no agrupamento de todos os módulos em uma pasta modules.
